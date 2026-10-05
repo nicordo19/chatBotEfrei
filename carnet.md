@@ -50,8 +50,8 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
 
 ### J1-02 · 💬 Premier prompt — [fiche](checkpoints/J1-02-premier-prompt.md)
 
-- [ ] Validé
-- Preuve : réponse fournie par l’étudiant et conservée ci-dessous ; HTML extrait sans correction dans `essais-n0/chatbot-v1.html`. Ouverture et utilisation dans le navigateur à vérifier.
+- [x] Validé
+- Preuve : réponse fournie par l’étudiant et conservée ci-dessous ; HTML extrait sans correction dans `essais-n0/chatbot-v1.html`. Page ouverte dans le navigateur ; trois messages essayés et réponses rapportées par l’étudiant. Réponse fournie relue : aucune clé ni donnée personnelle identifiée.
 - Mon prompt, envoyé tel quel selon ma confirmation dans cette conversation : « Fais-moi un chatbot sur le potager et le jardin pour les jardiniers sur balcon, au potager ou dans un massif, dans une seule page HTML que j'ouvre dans mon navigateur. »
 - La première réponse du chat (texte et code), telle quelle :
 
@@ -207,8 +207,11 @@ print(f"Créé : {path}")
 ````
 
 - Extraction : seul le contenu de la chaîne Python `html` est copié dans le fichier HTML, sans correction. Le script Python fourni n’a pas été exécuté.
-- Trois lignes d'observation (ce que j'ai vu en utilisant la page) :
-- Difficulté qui reste : ouvrir la page dans le navigateur, essayer trois messages dont un sur le thème et un hors thème, puis noter trois observations réelles. Garder la conversation web pour J1-03.
+- Trois lignes d'observation (essais dans le navigateur, rapportés par l’étudiant) :
+  1. « Comment arroser mon potager ? » reçoit des conseils d’arrosage, mais la réponse parle des pots : écrire « potager » ne change pas le mode « balcon » sélectionné par défaut.
+  2. « Mes feuilles jaunissent » reçoit plusieurs causes possibles et une demande de précisions sur la plante et la position des feuilles jaunes ; la réponse reste adaptée aux pots.
+  3. « Qui a gagné le match » reçoit la réponse générique « Je peux t’aider avec ça sur ton balcon 🌿 », puis une demande de précisions sur une plante. Le bot ne reconnaît pas explicitement que la question est hors sujet.
+- Difficulté qui reste : le contexte dépend du bouton sélectionné et le repli reste trompeur hors sujet. Ces observations sont conservées sans corriger la version 1. Garder la conversation web pour J1-03.
 
 ### J1-03 · 💥 Ça marche… jusqu'à quand — [fiche](checkpoints/J1-03-jusqua-quand.md)
 
