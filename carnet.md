@@ -217,6 +217,13 @@ print(f"Créé : {path}")
 
 - [ ] Validé
 - Liste de contrôle de la version 1 (cinq à huit comportements essayés) :
+  - [x] Une question sur l’arrosage reçoit une réponse ; en mode balcon, elle parle des pots même si la question mentionne le potager.
+  - [x] « Mes feuilles jaunissent » reçoit des causes possibles et une demande de précisions.
+  - [x] Une question sur un match reçoit le repli générique sur le jardinage, sans signalement explicite du hors-sujet.
+  - [x] Un message vide n’est pas envoyé, y compris avec la touche Entrée.
+  - [x] Le bouton « Au potager » affiche « Je jardine côté 🥕 potager. », puis « Super ! Au potager, on peut parler rotations, associations, semis, récoltes, sol et ravageurs. Que souhaites-tu préparer ? ».
+  - [x] Recharger la page fait perdre toute la conversation.
+  - Ces constats proviennent des essais rapportés par l’étudiant. Les cases indiquent un comportement observé, pas nécessairement souhaitable. L’envoi par Entrée avec un texte non vide reste à vérifier.
 - Journal des régressions, une entrée par modification : ce que j'ai demandé · ce qui marche maintenant · ce qui marchait et ne marche plus · ce que je n'avais pas vu, et comment je l'ai trouvé.
   - Modification 1 :
   - Modification 2 :
