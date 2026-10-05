@@ -3,16 +3,16 @@
 
 Un carnet par binôme, rempli au fil de l'eau avec vos propres mots. Une phrase honnête (« j'ai essayé X, j'ai vu Y, je ne comprends pas pourquoi ») vaut mieux qu'une phrase parfaite recopiée. Aucune donnée personnelle, aucune clé ni jeton, ni l'adresse complète que `dsh web` affiche (elle contient un jeton). C'est aussi votre journal de décisions (astuce 13) : ce que vous avez demandé, ce qui a cassé, ce que vous avez refusé, et pourquoi.
 
-Binôme :
+Binôme : travail individuel (solo).
 
-Thème provisoire et public visé :
+Thème provisoire et public visé : Potager et jardin — un assistant pour les jardiniers qui cultivent un balcon, un potager ou un massif.
 
 Trois questions auxquelles l'assistant pourrait répondre :
-1.
-2.
-3.
+1. Que planter sur un balcon ?
+2. Comment arroser un potager ?
+3. Comment entretenir un massif ?
 
-Rôles de départ et moments d'échange :
+Rôles de départ et moments d'échange : une seule personne assure la manipulation et la vérification ; pas d'échange de rôles entre deux personnes. Adaptation du parcours au travail individuel. L'assistant prépare les modifications et crée les commits à ma demande explicite ; les vérifications personnelles restent à réaliser.
 
 ## Cahier personnel (remis par le formateur en J1-01)
 
