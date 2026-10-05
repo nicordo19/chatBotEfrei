@@ -52,10 +52,10 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
 
 - [ ] Validé
 - Preuve : `essais-n0/chatbot-v1.html` s'ouvre ; le prompt et la première réponse sont collés ci-dessous, en entier, sans donnée personnelle.
-- Mon prompt, tel quel :
+- Prompt préparé, à envoyer tel quel dans une nouvelle conversation du chat web : « Fais-moi un chatbot sur le potager et le jardin pour les jardiniers sur balcon, au potager ou dans un massif, dans une seule page HTML que j'ouvre dans mon navigateur. »
 - La première réponse du chat (texte et code), telle quelle :
 - Trois lignes d'observation (ce que j'ai vu en utilisant la page) :
-- Difficulté qui reste :
+- Difficulté qui reste : conversation web à réaliser selon la fiche ; conserver sa première réponse complète sans correction, puis ouvrir la page et noter les observations réelles. Le prompt préparé n'est pas présenté comme déjà envoyé.
 
 ### J1-03 · 💥 Ça marche… jusqu'à quand — [fiche](checkpoints/J1-03-jusqua-quand.md)
 
