@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JardiBot 🌱 — Assistant potager & jardin</title>
+
+<style>
+:root {
+  --green: #24543a;
+  --green2: #397554;
+  --leaf: #dcebdc;
+  --cream: #f7f3e8;
+  --card: #fffdf8;
+  --text: #20332a;
+  --muted: #66776e;
+  --accent: #e99a56;
+  --shadow: 0 14px 40px rgba(32, 51, 42, .12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+  color: var(--text);
+
+  background:
+    radial-gradient(circle at 10% 0%, #e1efdc 0, transparent 32%),
+    radial-gradient(circle at 90% 100%, #f3ddc3 0, transparent 28%),
+    var(--cream);
+}
+
+.app {
+  max-width: 1100px;
+  margin: auto;
+  padding: 28px 18px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 17px;
+  background: var(--green);
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  box-shadow: var(--shadow);
+}
+
+h1 {
+  font-size: 25px;
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+.badge {
+  background: #fff8;
+  border: 1px solid #d8e2d5;
+  border-radius: 99px;
+  padding: 9px 13px;
+  font-size: 13px;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.layout {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 18px;
+}
+
+.sidebar,
+.chat {
+  background: rgba(255, 253, 248, .88);
+  border: 1px solid #e3e5d9;
+  border-radius: 25px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  padding: 20px;
+}
+
+.sidebar h2 {
+  font-size: 15px;
+  margin: 0 0 12px;
+}
+
+.mode {
+  width: 100%;
+  border: 1px solid #dfe4db;
+  background: white;
+  border-radius: 14px;
+  padding: 12px;
+  margin: 5px 0;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text);
+  transition: .2s;
+}
+
+.mode:hover,
+.mode.active {
+  background: var(--leaf);
+  border-color: #aac6ad;
+  transform: translateY(-1px);
+}
+
+.tip {
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #f4eadc;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* =========================
+   CHAT
+========================= */
+
+.chat {
+  height: 720px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-head {
+  padding: 18px 22px;
+  border-bottom: 1px solid #e7e8df;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.online {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #59a96a;
+  box-shadow: 0 0 0 4px #e3f3e5;
+}
+
+/* =========================
+   BOUTON EFFACER
+========================= */
+
+.clear-btn {
+  margin-left: auto;
+  border: 1px solid #d9dfd5;
+  background: white;
+  color: var(--muted);
+  border-radius: 12px;
+  padding: 8px 11px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: .2s;
+}
+
+.clear-btn:hover {
+  background: #f4eadc;
+  color: var(--text);
+  border-color: #d8c8b5;
+}
+
+/* =========================
+   MESSAGES
+========================= */
+
+.messages {
+  flex: 1;
+  overflow: auto;
+  padding: 22px;
+  scroll-behavior: smooth;
+}
+
+.msg {
+  display: flex;
+  margin: 10px 0;
+}
+
+.msg.user {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 78%;
+  padding: 13px 16px;
+  border-radius: 18px;
+  line-height: 1.52;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+.bot .bubble {
+  background: #edf4ea;
+  border-bottom-left-radius: 5px;
+}
+
+.user .bubble {
+  background: var(--green);
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+/* =========================
+   QUESTIONS RAPIDES
+========================= */
+
+.quick {
+  padding: 0 22px 12px;
+  display: flex;
+  gap: 8px;
+  overflow: auto;
+}
+
+.chip {
+  white-space: nowrap;
+  border: 1px solid #d9dfd5;
+  background: white;
+  border-radius: 99px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--green);
+  font-size: 12px;
+  transition: .2s;
+}
+
+.chip:hover {
+  background: var(--leaf);
+}
+
+/* =========================
+   ZONE DE SAISIE
+========================= */
+
+.composer {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  border-top: 1px solid #e7e8df;
+  background: #fff;
+}
+
+input {
+  flex: 1;
+  border: 1px solid #d9ded5;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-size: 14px;
+  outline: none;
+  background: #fafbf8;
+}
+
+input:focus {
+  border-color: #7fa88a;
+  box-shadow: 0 0 0 3px #e6f0e5;
+}
+
+button.send {
+  border: 0;
+  background: var(--green);
+  color: white;
+  border-radius: 16px;
+  padding: 0 19px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: .2s;
+}
+
+button.send:hover {
+  background: var(--green2);
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 15px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 750px) {
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    padding: 14px;
+  }
+
+  .modes {
+    display: flex;
+    gap: 6px;
+  }
+
+  .mode {
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .tip {
+    display: none;
+  }
+
+  .chat {
+    height: 72vh;
+  }
+
+  .badge {
+    display: none;
+  }
+
+  .bubble {
+    max-width: 90%;
+  }
+
+  .clear-btn {
+    font-size: 11px;
+    padding: 7px 9px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+
+  <div class="brand">
+
+    <div class="logo">
+      🌱
+    </div>
+
+    <div>
+
+      <h1>JardiBot</h1>
+
+      <div class="subtitle">
+        Ton compagnon pour cultiver, planter et prendre soin du jardin.
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="badge">
+    🌿 Conseils naturels & pratiques
+  </div>
+
+</header>
+
+
+<div class="layout">
+
+<!-- =========================
+     MENU GAUCHE
+========================= -->
+
+<aside class="sidebar">
+
+  <h2>Où jardines-tu ?</h2>
+
+  <div class="modes">
+
+    <button
+      class="mode active"
+      data-mode="balcon"
+      type="button"
+    >
+      🪴 Sur mon balcon
+    </button>
+
+    <button
+      class="mode"
+      data-mode="potager"
+      type="button"
+    >
+      🥕 Au potager
+    </button>
+
+    <button
+      class="mode"
+      data-mode="massif"
+      type="button"
+    >
+      🌸 Dans un massif
+    </button>
+
+  </div>
+
+  <div class="tip">
+
+    <b>Conseil du moment 🍂</b>
+
+    <br>
+
+    En automne, protège le sol avec des feuilles mortes ou du paillage :
+    il restera vivant et résistera mieux au froid.
+
+  </div>
+
+</aside>
+
+
+<!-- =========================
+     CHATBOT
+========================= -->
+
+<main class="chat">
+
+  <div class="chat-head">
+
+    <span class="online"></span>
+
+    <div>
+
+      <b>JardiBot</b>
+
+      <div style="font-size:12px;color:var(--muted)">
+        Assistant jardinier • disponible
+      </div>
+
+    </div>
+
+    <button
+      class="clear-btn"
+      id="clearChat"
+      type="button"
+    >
+      🗑 Effacer la conversation
+    </button>
+
+  </div>
+
+
+  <!-- MESSAGES -->
+
+  <div
+    class="messages"
+    id="messages"
+  ></div>
+
+
+  <!-- QUESTIONS RAPIDES -->
+
+  <div
+    class="quick"
+    id="quick"
+  >
+
+    <button class="chip" type="button">
+      Que planter maintenant ?
+    </button>
+
+    <button class="chip" type="button">
+      Mes feuilles jaunissent
+    </button>
+
+    <button class="chip" type="button">
+      Comment arroser ?
+    </button>
+
+    <button class="chip" type="button">
+      Plantes faciles
+    </button>
+
+  </div>
+
+
+  <!-- CHAMP DE MESSAGE -->
+
+  <form
+    class="composer"
+    id="form"
+  >
+
+    <input
+      id="input"
+      autocomplete="off"
+      placeholder="Pose ta question sur ton jardin…"
+    >
+
+    <button
+      class="send"
+      type="submit"
+      aria-label="Envoyer"
+    >
+      ➜
+    </button>
+
+  </form>
+
+</main>
+
+</div>
+
+
+<footer>
+  JardiBot donne des conseils généraux :
+  adapte-les à ton climat, ton exposition et à tes plantes.
+</footer>
+
+</div>
+
+
+<script>
+
+/* ========================================
+   CONFIGURATION
+======================================== */
+
+const STORAGE_MESSAGES = "jardibot_messages";
+const STORAGE_MODE = "jardibot_mode";
+
+const messages =
+  document.getElementById("messages");
+
+const input =
+  document.getElementById("input");
+
+const clearButton =
+  document.getElementById("clearChat");
+
+const form =
+  document.getElementById("form");
+
+
+/* ========================================
+   MODE ACTUEL
+======================================== */
+
+/*
+On récupère le dernier mode utilisé.
+
+Si aucun mode n'a encore été sauvegardé,
+le balcon est sélectionné par défaut.
+*/
+
+let mode =
+  localStorage.getItem(STORAGE_MODE) || "balcon";
+
+
+/* ========================================
+   SAUVEGARDE DES MESSAGES
+======================================== */
+
+function saveMessages() {
+
+  const conversation = [];
+
+  document
+    .querySelectorAll(".msg")
+    .forEach(message => {
+
+      const bubble =
+        message.querySelector(".bubble");
+
+      conversation.push({
+
+        who:
+          message.classList.contains("user")
+            ? "user"
+            : "bot",
+
+        text:
+          bubble.textContent
+
+      });
+
+    });
+
+
+  localStorage.setItem(
+    STORAGE_MESSAGES,
+    JSON.stringify(conversation)
+  );
+
+}
+
+
+/* ========================================
+   AJOUTER UN MESSAGE
+======================================== */
+
+function add(
+  text,
+  who = "bot",
+  save = true
+) {
+
+  const row =
+    document.createElement("div");
+
+  row.className =
+    "msg " + who;
+
+
+  const bubble =
+    document.createElement("div");
+
+  bubble.className =
+    "bubble";
+
+  bubble.textContent =
+    text;
+
+
+  row.appendChild(bubble);
+
+  messages.appendChild(row);
+
+
+  /*
+  Descend automatiquement
+  vers le dernier message.
+  */
+
+  messages.scrollTop =
+    messages.scrollHeight;
+
+
+  /*
+  On sauvegarde automatiquement
+  la conversation.
+  */
+
+  if (save) {
+
+    saveMessages();
+
+  }
+
+}
+
+
+/* ========================================
+   MESSAGE D'ACCUEIL
+======================================== */
+
+function welcome() {
+
+  add(
+`Bonjour 👋 Je suis JardiBot.
+
+Je peux t’aider à choisir tes plantations, diagnostiquer un problème, organiser ton potager ou entretenir tes fleurs.
+
+Tu jardines où et qu’aimerais-tu faire ?`
+  );
+
+}
+
+
+/* ========================================
+   RESTAURER LA CONVERSATION
+======================================== */
+
+function restoreConversation() {
+
+  const saved =
+    localStorage.getItem(STORAGE_MESSAGES);
+
+
+  /*
+  S'il n'existe aucune conversation,
+  on affiche simplement le message
+  d'accueil.
+  */
+
+  if (!saved) {
+
+    welcome();
+
+    return;
+
+  }
+
+
+  try {
+
+    const conversation =
+      JSON.parse(saved);
+
+
+    /*
+    Si la sauvegarde est vide ou incorrecte,
+    on repart sur le message d'accueil.
+    */
+
+    if (
+      !Array.isArray(conversation) ||
+      conversation.length === 0
+    ) {
+
+      welcome();
+
+      return;
+
+    }
+
+
+    /*
+    On recrée chaque message.
+
+    save = false permet d'éviter
+    de réécrire le localStorage pendant
+    la restauration.
+    */
+
+    conversation.forEach(message => {
+
+      add(
+        message.text,
+        message.who,
+        false
+      );
+
+    });
+
+
+    /*
+    On descend jusqu'au dernier message.
+    */
+
+    messages.scrollTop =
+      messages.scrollHeight;
+
+  }
+
+  catch (error) {
+
+    /*
+    Si la sauvegarde est corrompue,
+    on la supprime.
+    */
+
+    localStorage.removeItem(
+      STORAGE_MESSAGES
+    );
+
+    welcome();
+
+  }
+
+}
+
+
+/* ========================================
+   RESTAURER LE MODE
+======================================== */
+
+function restoreMode() {
+
+  document
+    .querySelectorAll(".mode")
+    .forEach(button => {
+
+      button.classList.remove("active");
+
+
+      if (
+        button.dataset.mode === mode
+      ) {
+
+        button.classList.add("active");
+
+      }
+
+    });
+
+}
+
+
+/* ========================================
+   INITIALISATION
+======================================== */
+
+restoreMode();
+
+restoreConversation();
+
+
+/* ========================================
+   EFFACER LA CONVERSATION
+======================================== */
+
+clearButton.addEventListener(
+  "click",
+  function () {
+
+    /*
+    On vide visuellement
+    la conversation.
+    */
+
+    messages.innerHTML = "";
+
+
+    /*
+    On supprime également la conversation
+    enregistrée dans le navigateur.
+    */
+
+    localStorage.removeItem(
+      STORAGE_MESSAGES
+    );
+
+
+    /*
+    On remet le message d'accueil.
+
+    Comme add() sauvegarde automatiquement,
+    ce nouveau message devient la nouvelle
+    conversation enregistrée.
+    */
+
+    welcome();
+
+
+    /*
+    On replace le curseur
+    dans le champ de saisie.
+    */
+
+    input.focus();
+
+  }
+);
+
+
+/* ========================================
+   CHOIX DU TYPE DE JARDIN
+======================================== */
+
+document
+  .querySelectorAll(".mode")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      function () {
+
+        /*
+        Retire la sélection actuelle.
+        */
+
+        document
+          .querySelectorAll(".mode")
+          .forEach(item => {
+
+            item.classList.remove(
+              "active"
+            );
+
+          });
+
+
+        /*
+        Active le nouveau bouton.
+        */
+
+        button.classList.add(
+          "active"
+        );
+
+
+        /*
+        Met à jour le mode.
+        */
+
+        mode =
+          button.dataset.mode;
+
+
+        /*
+        Sauvegarde le mode.
+
+        Ainsi, après actualisation,
+        JardiBot se souvient si l'utilisateur
+        était sur balcon, potager ou massif.
+        */
+
+        localStorage.setItem(
+          STORAGE_MODE,
+          mode
+        );
+
+
+        const names = {
+
+          balcon:
+            "🪴 balcon",
+
+          potager:
+            "🥕 potager",
+
+          massif:
+            "🌸 massif"
+
+        };
+
+
+        add(
+          "Je jardine côté " +
+          names[mode] +
+          ".",
+          "user"
+        );
+
+
+        setTimeout(
+          function () {
+
+            add(
+              contextReply()
+            );
+
+          },
+          350
+        );
+
+      }
+    );
+
+  });
+
+
+/* ========================================
+   RÉPONSE SELON LE LIEU
+======================================== */
+
+function contextReply() {
+
+  if (mode === "balcon") {
+
+    return `Parfait !
+
+Pour un balcon, je tiendrai compte de l’espace limité, des pots, de l’exposition et de l’arrosage plus fréquent.
+
+Que veux-tu cultiver ?`;
+
+  }
+
+
+  if (mode === "potager") {
+
+    return `Super !
+
+Au potager, on peut parler rotations, associations, semis, récoltes, sol et ravageurs.
+
+Que souhaites-tu préparer ?`;
+
+  }
+
+
+  return `Très bien !
+
+Pour ton massif, je peux t’aider sur les vivaces, les floraisons, les couleurs, l’exposition et l’entretien.
+
+Quel est ton objectif ?`;
+
+}
+
+
+/* ========================================
+   MOTEUR DU CHATBOT
+======================================== */
+
+function answer(question) {
+
+  const text =
+    question.toLowerCase();
+
+
+  const place = {
+
+    balcon:
+      "sur ton balcon",
+
+    potager:
+      "dans ton potager",
+
+    massif:
+      "dans ton massif"
+
+  }[mode];
+
+
+  /* =====================================
+     PLANTATIONS
+  ===================================== */
+
+  if (
+    /planter|semer|maintenant|octobre|automne/.test(text)
+  ) {
+
+    if (mode === "balcon") {
+
+      return `En automne ${place}, tu peux miser sur 🌱 mâche, épinards, radis d’hiver et aromatiques rustiques.
+
+Côté fleurs : pensées, bruyères et petits bulbes de printemps.
+
+Vérifie surtout que les pots sont bien drainés.`;
+
+    }
+
+
+    if (mode === "potager") {
+
+      return `En automne ${place}, pense à l’ail, aux fèves selon le climat, aux épinards, à la mâche et aux engrais verts.
+
+C’est aussi un excellent moment pour pailler les parcelles libres et enrichir le sol avec du compost mûr.`;
+
+    }
+
+
+    return `Pour un massif d’automne, c’est une très bonne période pour installer des vivaces, arbustes et bulbes de printemps 🌷.
+
+Le sol encore doux aide les racines à s’installer avant l’hiver.`;
+
+  }
+
+
+  /* =====================================
+     FEUILLES JAUNES
+  ===================================== */
+
+  if (
+    /jaune|jaunissent|feuille/.test(text)
+  ) {
+
+    return `Des feuilles jaunes peuvent venir de plusieurs choses :
+
+• trop d’eau ;
+• manque d’eau ;
+• manque de nutriments ;
+• vieillissement naturel.
+
+${
+mode === "balcon"
+?
+"En pot, commence par vérifier que l’eau s’écoule bien sous le contenant."
+:
+"Vérifie l’humidité du sol à quelques centimètres de profondeur."
+}
+
+Dis-moi quelle plante est concernée et si les feuilles jaunes sont plutôt en bas ou en haut.`;
+
+  }
+
+
+  /* =====================================
+     ARROSAGE
+  ===================================== */
+
+  if (
+    /arroser|arrosage|eau/.test(text)
+  ) {
+
+    return `Le bon réflexe : touche la terre avant d’arroser 💧.
+
+Arrose profondément plutôt que souvent et superficiellement, de préférence le matin.
+
+${
+mode === "balcon"
+?
+"Les pots sèchent vite : surveille-les davantage lors des journées chaudes ou venteuses."
+:
+"Un paillage limite fortement l’évaporation."
+}`;
+
+  }
+
+
+  /* =====================================
+     PLANTES FACILES
+  ===================================== */
+
+  if (
+    /facile|début|debut/.test(text)
+  ) {
+
+    if (mode === "balcon") {
+
+      return `Pour débuter sur un balcon :
+
+🌿 ciboulette
+🌿 menthe en pot séparé
+🥬 laitue
+🌱 radis
+🍓 fraisiers
+🍅 tomates cerises si tu as assez de soleil.`;
+
+    }
+
+
+    if (mode === "potager") {
+
+      return `Pour un potager facile :
+
+🌱 radis
+🥒 courgettes
+🫘 haricots
+🥬 laitues
+🍅 tomates cerises
+🌿 aromatiques
+
+Commence petit : quelques cultures bien suivies valent mieux qu’un grand potager difficile à entretenir.`;
+
+    }
+
+
+    return `Pour un massif facile, regarde notamment :
+
+🌸 géraniums vivaces
+🌿 sauges
+🌿 heuchères
+🌿 sedums
+🌾 graminées
+
+Le choix précis dépend surtout du soleil et de ton type de sol.`;
+
+  }
+
+
+  /* =====================================
+     RAVAGEURS
+  ===================================== */
+
+  if (
+    /puceron|limace|insecte|ravageur/.test(text)
+  ) {
+
+    return `Avant de traiter, identifie le ravageur 🐞.
+
+Pour les pucerons, un jet d’eau et la présence d’auxiliaires peuvent parfois suffire.
+
+Pour les limaces, privilégie les barrières, le ramassage et les refuges à auxiliaires.
+
+Évite les traitements systématiques.`;
+
+  }
+
+
+  /* =====================================
+     TOMATES
+  ===================================== */
+
+  if (
+    /tomate/.test(text)
+  ) {
+
+    return `Pour les tomates 🍅 :
+
+☀️ beaucoup de lumière
+🌱 un sol riche
+💧 un arrosage régulier au pied
+🍃 éviter de mouiller inutilement le feuillage
+↔️ suffisamment d’espace autour de la plante
+
+En pot, choisis un contenant généreux avec un bon drainage.`;
+
+  }
+
+
+  /* =====================================
+     SOL / TERRE / COMPOST
+  ===================================== */
+
+  if (
+    /compost|terre|sol/.test(text)
+  ) {
+
+    return `Un sol vivant est la base 🌍.
+
+Apporte du compost mûr en surface, évite de laisser la terre nue et utilise un paillage organique.
+
+Pour aller plus loin, dis-moi si ta terre est plutôt argileuse, sableuse ou si tu ne connais pas encore sa nature.`;
+
+  }
+
+
+  /* =====================================
+     RÉPONSE PAR DÉFAUT
+  ===================================== */
+
+  return `Je peux t’aider avec ça ${place} 🌿.
+
+Pour te donner un conseil vraiment utile, précise-moi :
+
+• la plante concernée ;
+• son exposition : soleil, mi-ombre ou ombre ;
+• ce que tu observes.`;
+
+}
+
+
+/* ========================================
+   ENVOYER UN MESSAGE
+======================================== */
+
+function submit(text) {
+
+  /*
+  Empêche l'envoi
+  d'un message vide.
+  */
+
+  if (!text.trim()) {
+
+    return;
+
+  }
+
+
+  /*
+  Message utilisateur.
+  */
+
+  add(
+    text.trim(),
+    "user"
+  );
+
+
+  /*
+  Vide le champ.
+  */
+
+  input.value = "";
+
+
+  /*
+  Petite temporisation pour rendre
+  le chatbot plus naturel.
+  */
+
+  setTimeout(
+    function () {
+
+      add(
+        answer(text)
+      );
+
+    },
+    300
+  );
+
+}
+
+
+/* ========================================
+   FORMULAIRE
+======================================== */
+
+form.addEventListener(
+  "submit",
+  function (event) {
+
+    event.preventDefault();
+
+    submit(
+      input.value
+    );
+
+  }
+);
+
+
+/* ========================================
+   QUESTIONS RAPIDES
+======================================== */
+
+document
+  .querySelectorAll(".chip")
+  .forEach(chip => {
+
+    chip.addEventListener(
+      "click",
+      function () {
+
+        submit(
+          chip.textContent.trim()
+        );
+
+      }
+    );
+
+  });
+
+</script>
+
+</body>
+</html>
