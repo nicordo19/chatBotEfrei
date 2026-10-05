@@ -51,11 +51,164 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
 ### J1-02 · 💬 Premier prompt — [fiche](checkpoints/J1-02-premier-prompt.md)
 
 - [ ] Validé
-- Preuve : `essais-n0/chatbot-v1.html` s'ouvre ; le prompt et la première réponse sont collés ci-dessous, en entier, sans donnée personnelle.
-- Prompt préparé, à envoyer tel quel dans une nouvelle conversation du chat web : « Fais-moi un chatbot sur le potager et le jardin pour les jardiniers sur balcon, au potager ou dans un massif, dans une seule page HTML que j'ouvre dans mon navigateur. »
+- Preuve : réponse fournie par l’étudiant et conservée ci-dessous ; HTML extrait sans correction dans `essais-n0/chatbot-v1.html`. Ouverture et utilisation dans le navigateur à vérifier.
+- Mon prompt, envoyé tel quel selon ma confirmation dans cette conversation : « Fais-moi un chatbot sur le potager et le jardin pour les jardiniers sur balcon, au potager ou dans un massif, dans une seule page HTML que j'ouvre dans mon navigateur. »
 - La première réponse du chat (texte et code), telle quelle :
+
+````python
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JardiBot 🌱 — Assistant potager & jardin</title>
+<style>
+:root{
+  --green:#24543a; --green2:#397554; --leaf:#dcebdc; --cream:#f7f3e8;
+  --card:#fffdf8; --text:#20332a; --muted:#66776e; --accent:#e99a56;
+  --shadow:0 14px 40px rgba(32,51,42,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+  color:var(--text); background:
+  radial-gradient(circle at 10% 0%,#e1efdc 0,transparent 32%),
+  radial-gradient(circle at 90% 100%,#f3ddc3 0,transparent 28%),var(--cream);
+}
+.app{max-width:1100px;margin:auto;padding:28px 18px}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:13px}.logo{width:52px;height:52px;border-radius:17px;background:var(--green);display:grid;place-items:center;font-size:28px;box-shadow:var(--shadow)}
+h1{font-size:25px;margin:0}.subtitle{color:var(--muted);font-size:14px;margin-top:3px}
+.badge{background:#fff8;border:1px solid #d8e2d5;border-radius:99px;padding:9px 13px;font-size:13px}
+.layout{display:grid;grid-template-columns:270px 1fr;gap:18px}
+.sidebar,.chat{background:rgba(255,253,248,.88);border:1px solid #e3e5d9;border-radius:25px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+.sidebar{padding:20px}.sidebar h2{font-size:15px;margin:0 0 12px}
+.mode{width:100%;border:1px solid #dfe4db;background:white;border-radius:14px;padding:12px;margin:5px 0;text-align:left;cursor:pointer;font-size:14px;color:var(--text);transition:.2s}
+.mode:hover,.mode.active{background:var(--leaf);border-color:#aac6ad;transform:translateY(-1px)}
+.tip{margin-top:20px;padding:14px;border-radius:16px;background:#f4eadc;font-size:13px;line-height:1.5}
+.chat{height:720px;display:flex;flex-direction:column;overflow:hidden}
+.chat-head{padding:18px 22px;border-bottom:1px solid #e7e8df;display:flex;align-items:center;gap:11px}
+.online{width:10px;height:10px;border-radius:50%;background:#59a96a;box-shadow:0 0 0 4px #e3f3e5}
+.messages{flex:1;overflow:auto;padding:22px;scroll-behavior:smooth}
+.msg{display:flex;margin:10px 0}.msg.user{justify-content:flex-end}
+.bubble{max-width:78%;padding:13px 16px;border-radius:18px;line-height:1.52;font-size:14px;white-space:pre-wrap}
+.bot .bubble{background:#edf4ea;border-bottom-left-radius:5px}.user .bubble{background:var(--green);color:white;border-bottom-right-radius:5px}
+.quick{padding:0 22px 12px;display:flex;gap:8px;overflow:auto}
+.chip{white-space:nowrap;border:1px solid #d9dfd5;background:white;border-radius:99px;padding:8px 12px;cursor:pointer;color:var(--green);font-size:12px}
+.chip:hover{background:var(--leaf)}
+.composer{display:flex;gap:10px;padding:15px;border-top:1px solid #e7e8df;background:#fff}
+input{flex:1;border:1px solid #d9ded5;border-radius:16px;padding:14px 16px;font-size:14px;outline:none;background:#fafbf8}
+input:focus{border-color:#7fa88a;box-shadow:0 0 0 3px #e6f0e5}
+button.send{border:0;background:var(--green);color:white;border-radius:16px;padding:0 19px;cursor:pointer;font-size:18px}
+button.send:hover{background:var(--green2)}
+footer{text-align:center;color:var(--muted);font-size:11px;margin-top:15px}
+@media(max-width:750px){.layout{grid-template-columns:1fr}.sidebar{padding:14px}.modes{display:flex;gap:6px}.mode{font-size:12px;text-align:center}.tip{display:none}.chat{height:72vh}.badge{display:none}.bubble{max-width:90%}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">🌱</div><div><h1>JardiBot</h1><div class="subtitle">Ton compagnon pour cultiver, planter et prendre soin du jardin.</div></div></div>
+  <div class="badge">🌿 Conseils naturels & pratiques</div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <h2>Où jardines-tu ?</h2>
+  <div class="modes">
+    <button class="mode active" data-mode="balcon">🪴 Sur mon balcon</button>
+    <button class="mode" data-mode="potager">🥕 Au potager</button>
+    <button class="mode" data-mode="massif">🌸 Dans un massif</button>
+  </div>
+  <div class="tip"><b>Conseil du moment 🍂</b><br>En automne, protège le sol avec des feuilles mortes ou du paillage : il restera vivant et résistera mieux au froid.</div>
+</aside>
+
+<main class="chat">
+  <div class="chat-head"><span class="online"></span><div><b>JardiBot</b><div style="font-size:12px;color:var(--muted)">Assistant jardinier • disponible</div></div></div>
+  <div class="messages" id="messages"></div>
+  <div class="quick" id="quick">
+    <button class="chip">Que planter maintenant ?</button>
+    <button class="chip">Mes feuilles jaunissent</button>
+    <button class="chip">Comment arroser ?</button>
+    <button class="chip">Plantes faciles</button>
+  </div>
+  <form class="composer" id="form">
+    <input id="input" autocomplete="off" placeholder="Pose ta question sur ton jardin…">
+    <button class="send" aria-label="Envoyer">➜</button>
+  </form>
+</main>
+</div>
+<footer>JardiBot donne des conseils généraux : adapte-les à ton climat, ton exposition et à tes plantes.</footer>
+</div>
+
+<script>
+let mode="balcon";
+const messages=document.getElementById("messages");
+const input=document.getElementById("input");
+
+function add(text,who="bot"){
+ const row=document.createElement("div"); row.className="msg "+who;
+ const b=document.createElement("div"); b.className="bubble"; b.textContent=text;
+ row.appendChild(b); messages.appendChild(row); messages.scrollTop=messages.scrollHeight;
+}
+add("Bonjour 👋 Je suis JardiBot. Je peux t’aider à choisir tes plantations, diagnostiquer un problème, organiser ton potager ou entretenir tes fleurs.\n\nTu jardines où et qu’aimerais-tu faire ?");
+
+document.querySelectorAll(".mode").forEach(btn=>btn.onclick=()=>{
+ document.querySelectorAll(".mode").forEach(x=>x.classList.remove("active")); btn.classList.add("active");
+ mode=btn.dataset.mode;
+ const names={balcon:"🪴 balcon",potager:"🥕 potager",massif:"🌸 massif"};
+ add("Je jardine côté "+names[mode]+".","user");
+ setTimeout(()=>add(contextReply()),350);
+});
+
+function contextReply(){
+ if(mode==="balcon") return "Parfait ! Pour un balcon, je tiendrai compte de l’espace limité, des pots, de l’exposition et de l’arrosage plus fréquent. Que veux-tu cultiver ?";
+ if(mode==="potager") return "Super ! Au potager, on peut parler rotations, associations, semis, récoltes, sol et ravageurs. Que souhaites-tu préparer ?";
+ return "Très bien ! Pour ton massif, je peux t’aider sur les vivaces, les floraisons, les couleurs, l’exposition et l’entretien. Quel est ton objectif ?";
+}
+
+function answer(q){
+ const s=q.toLowerCase();
+ const place={balcon:"sur ton balcon",potager:"dans ton potager",massif:"dans ton massif"}[mode];
+
+ if(/planter|semer|maintenant|octobre|automne/.test(s)){
+   if(mode==="balcon") return "En automne "+place+", tu peux miser sur 🌱 mâche, épinards, radis d’hiver et aromatiques rustiques. Côté fleurs : pensées, bruyères et petits bulbes de printemps. Vérifie surtout que les pots sont bien drainés.";
+   if(mode==="potager") return "En automne "+place+", pense à l’ail, aux fèves selon le climat, aux épinards, à la mâche et aux engrais verts. C’est aussi un excellent moment pour pailler les parcelles libres et enrichir le sol avec du compost mûr.";
+   return "Pour un massif d’automne, c’est une très bonne période pour installer des vivaces, arbustes et bulbes de printemps 🌷. Le sol encore doux aide les racines à s’installer avant l’hiver.";
+ }
+ if(/jaune|jaunissent|feuille/.test(s)) return "Des feuilles jaunes peuvent venir de plusieurs choses : trop d’eau, manque d’eau, manque de nutriments ou vieillissement naturel. "+(mode==="balcon"?"En pot, commence par vérifier que l’eau s’écoule bien sous le contenant.":"Vérifie l’humidité du sol à quelques centimètres de profondeur.")+" Dis-moi quelle plante est concernée et si les feuilles jaunes sont plutôt en bas ou en haut.";
+ if(/arroser|arrosage|eau/.test(s)) return "Le bon réflexe : touche la terre avant d’arroser 💧. Arrose profondément plutôt que souvent et superficiellement, de préférence le matin. "+(mode==="balcon"?"Les pots sèchent vite : surveille-les davantage lors des journées chaudes ou venteuses.":"Un paillage limite fortement l’évaporation.");
+ if(/facile|début|debut/.test(s)){
+   if(mode==="balcon") return "Pour débuter sur un balcon : ciboulette, menthe en pot séparé, radis, laitue, fraisiers et tomates cerises si tu as assez de soleil ☀️.";
+   if(mode==="potager") return "Pour un potager facile : radis, courgettes, haricots, laitues, tomates cerises et aromatiques. Commence petit : quelques cultures bien suivies valent mieux qu’un grand potager difficile à entretenir.";
+   return "Pour un massif facile, regarde les géraniums vivaces, sauges, heuchères, sedums et graminées. Le choix précis dépend surtout du soleil et de ton type de sol.";
+ }
+ if(/puceron|limace|insecte|ravageur/.test(s)) return "Avant de traiter, identifie le ravageur 🐞. Pour les pucerons, un jet d’eau et la présence d’auxiliaires peuvent suffire. Pour les limaces, privilégie barrières, ramassage et refuges à auxiliaires. Évite les traitements systématiques.";
+ if(/tomate/.test(s)) return "Pour les tomates 🍅 : beaucoup de lumière, un sol riche, un arrosage régulier au pied sans mouiller le feuillage et un bon espace autour de la plante. En pot, vise un contenant généreux avec drainage.";
+ if(/compost|terre|sol/.test(s)) return "Un sol vivant est la base 🌍. Apporte du compost mûr en surface, évite de laisser la terre nue et utilise un paillage organique. Pour aller plus loin, dis-moi si ta terre est plutôt argileuse, sableuse ou inconnue.";
+ return "Je peux t’aider avec ça "+place+" 🌿. Pour te donner un conseil vraiment utile, précise-moi la plante concernée, son exposition (soleil / mi-ombre / ombre) et ce que tu observes.";
+}
+
+function submit(text){
+ if(!text.trim())return; add(text.trim(),"user"); input.value="";
+ setTimeout(()=>add(answer(text)),300);
+}
+document.getElementById("form").onsubmit=e=>{e.preventDefault();submit(input.value)};
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>submit(c.textContent));
+</script>
+</body>
+</html>'''
+
+path = Path("/mnt/data/jardibot.html")
+path.write_text(html, encoding="utf-8")
+print(f"Créé : {path}")
+````
+
+- Extraction : seul le contenu de la chaîne Python `html` est copié dans le fichier HTML, sans correction. Le script Python fourni n’a pas été exécuté.
 - Trois lignes d'observation (ce que j'ai vu en utilisant la page) :
-- Difficulté qui reste : conversation web à réaliser selon la fiche ; conserver sa première réponse complète sans correction, puis ouvrir la page et noter les observations réelles. Le prompt préparé n'est pas présenté comme déjà envoyé.
+- Difficulté qui reste : ouvrir la page dans le navigateur, essayer trois messages dont un sur le thème et un hors thème, puis noter trois observations réelles. Garder la conversation web pour J1-03.
 
 ### J1-03 · 💥 Ça marche… jusqu'à quand — [fiche](checkpoints/J1-03-jusqua-quand.md)
 
