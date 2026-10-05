@@ -225,7 +225,11 @@ print(f"Créé : {path}")
   - [x] Recharger la page fait perdre toute la conversation.
   - Ces constats proviennent des essais rapportés par l’étudiant. Les cases indiquent un comportement observé, pas nécessairement souhaitable. L’envoi par Entrée avec un texte non vide reste à vérifier.
 - Journal des régressions, une entrée par modification : ce que j'ai demandé · ce qui marche maintenant · ce qui marchait et ne marche plus · ce que je n'avais pas vu, et comment je l'ai trouvé.
-  - Modification 1 :
+  - Modification 1 — `essais-n0/chatbot-v2.html` (réponse HTML conservée à l’identique, version 1 conservée) :
+    - Demande : « Ajoute un bouton « Effacer la conversation » qui vide les messages et redonne-moi le fichier HTML complet. » Première réponse reçue : script Python de modification, pas le HTML complet. Relance demandée : « Tu m’as donné un script Python. Donne-moi le fichier HTML complet mis à jour, de `<!DOCTYPE html>` à `</html>`, en un seul bloc, sans Python. »
+    - Ce qui marche maintenant : à vérifier dans le navigateur. Le code ajoute un bouton qui supprime les messages, réaffiche l’accueil et replace le curseur dans le champ ; cela ne laisse donc pas une liste entièrement vide.
+    - Ce qui marchait et ne marche plus : aucune conclusion avant de rejouer les six comportements ci-dessus. La lecture du code révèle déjà des changements non demandés dans les textes des réponses et leur présentation (listes, emojis, sauts de ligne).
+    - Ce que je n’avais pas vu et comment le chercher : l’assistant a repéré à la lecture que les réponses différées ne sont pas annulées par le bouton. À tester : envoyer un message puis cliquer immédiatement sur Effacer ; une réponse pourrait réapparaître après l’effacement. Ce risque n’est pas encore un résultat observé dans le navigateur.
   - Modification 2 :
   - Modification 3 :
 - Chasse à l'angle mort (ce qui a été trouvé, et par qui) :
