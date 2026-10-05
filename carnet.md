@@ -242,6 +242,7 @@ print(f"Créé : {path}")
     - Ce que je n’avais pas vu et comment le chercher : j’ai constaté que l’avertissement disparaît pendant la saisie. À la lecture du code, le bouton Effacer vide maintenant aussi le texte en cours de saisie, changement supplémentaire par rapport à la version 3 ; ce dernier point reste à vérifier dans le navigateur.
 - Chasse à l'angle mort (ce qui a été trouvé, et par qui) :
   - Sur la version 4, j’ai envoyé `<b>gras</b>`. Le résultat que j’ai copié conserve les balises ; le bot me donne sa réponse générique dans le contexte potager. Cet essai n’a pas révélé d’interprétation du message comme du HTML.
+  - Pour l’essai de deux envois rapprochés, j’ai envoyé « salut » puis « test ». Dans le résultat que j’ai copié, chaque message est suivi d’une réponse générique dans le contexte potager : aucun message ni réponse ne manque. Ce résultat ne mesure pas le délai entre mes deux envois.
 - Deux phrases de conclusion :
 - Difficulté qui reste :
 
