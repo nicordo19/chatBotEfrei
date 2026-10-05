@@ -241,6 +241,7 @@ print(f"Créé : {path}")
     - Ce qui marchait et ne marche plus : j’ai vérifié l’envoi par Entrée, la conservation des messages et du mode après sélection de « Au potager », envoi de « Comment arroser ? » et rechargement, puis l’effacement durable (seul l’accueil reste après rechargement). Je n’ai constaté aucune régression sur ces essais. J’ai également retesté « Mes feuilles jaunissent » : les quatre causes possibles, le contrôle de l’humidité du sol et la demande de précisions sont conservés. « qui a ganié le match ? » reçoit le repli générique dans le contexte potager. Les comportements de réponse de la liste ont ainsi été revérifiés, avec cette formulation rapportée pour la question hors sujet.
     - Ce que je n’avais pas vu et comment le chercher : j’ai constaté que l’avertissement disparaît pendant la saisie. À la lecture du code, le bouton Effacer vide maintenant aussi le texte en cours de saisie, changement supplémentaire par rapport à la version 3 ; ce dernier point reste à vérifier dans le navigateur.
 - Chasse à l'angle mort (ce qui a été trouvé, et par qui) :
+  - Sur la version 4, j’ai envoyé `<b>gras</b>`. Le résultat que j’ai copié conserve les balises ; le bot me donne sa réponse générique dans le contexte potager. Cet essai n’a pas révélé d’interprétation du message comme du HTML.
 - Deux phrases de conclusion :
 - Difficulté qui reste :
 
