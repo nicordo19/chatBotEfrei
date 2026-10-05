@@ -232,9 +232,9 @@ print(f"Créé : {path}")
     - Ce que je n’avais pas vu et comment je l’ai cherché : l’assistant a repéré dans le code des réponses différées non annulées par Effacer. L’étudiant a essayé d’envoyer puis d’effacer immédiatement : seul l’accueil est resté, aucune réponse tardive rapportée. Le risque repéré dans le code n’a donc pas été reproduit pendant cet essai ; il n’est pas présenté comme un bug observé.
   - Modification 2 — `essais-n0/chatbot-v3.html` (HTML reçu conservé à l’identique ; versions 1 et 2 conservées) :
     - Demande préparée pour le chat, suivie de la réponse transmise par l’étudiant : « Garde la conversation après un rechargement de la page et redonne-moi le fichier HTML complet en un seul bloc, sans Python. »
-    - Ce qui marche maintenant : essais dans le navigateur à réaliser. À la lecture, le code sauvegarde les messages sous `jardibot_messages` dans `localStorage`, les restaure au démarrage et met à jour la sauvegarde lors de l’effacement.
+    - Ce qui marche maintenant : l’étudiant confirme que les messages sont conservés après rechargement. Après effacement puis rechargement, seul l’accueil reste ; les anciens échanges ne reviennent pas. Le code utilise la clé `jardibot_messages` dans `localStorage`.
     - Ce qui marchait et ne marche plus : aucune régression confirmée à ce stade ; rejouer la liste des comportements, dont Entrée et Effacer. La perte des échanges au rechargement doit maintenant être remplacée par leur conservation.
-    - Ce que je n’avais pas vu et comment le chercher : la lecture révèle aussi la mémorisation du mode sous `jardibot_mode`, au-delà des seuls messages demandés. Vérifier le mode après rechargement, puis effacer et recharger pour vérifier que les anciens échanges ne reviennent pas. Ces points ne sont pas encore des observations dans le navigateur.
+    - Ce que je n’avais pas vu et comment le chercher : la lecture révèle aussi la mémorisation du mode sous `jardibot_mode`, au-delà des seuls messages demandés. La conservation du mode après rechargement reste à confirmer séparément. L’essai d’effacement suivi d’un rechargement a été réalisé par l’étudiant : les anciens échanges ne reviennent pas.
   - Modification 3 :
 - Chasse à l'angle mort (ce qui a été trouvé, et par qui) :
 - Deux phrases de conclusion :
