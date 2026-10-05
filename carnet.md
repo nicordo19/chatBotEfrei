@@ -28,8 +28,13 @@ Réglages adaptés au thème « Potager et jardin » à ma demande : limite de l
 
 Notez le dossier de lancement, la commande et sa sortie exacte, surtout quand un outil a bloqué.
 
-- Dossier :
-- Commande et résultat :
+- Dossier : racine du projet, puis `atelier` pour le serveur et les tests.
+- Commandes et résultats observés par l'assistant :
+  - `node --version` : `v22.23.2`, inférieur au minimum demandé (`24.20`).
+  - Premier `npm start` dans l'environnement restreint : `Error: listen EPERM: operation not permitted 127.0.0.1:3000` (cet environnement affiche `Node.js v22.17.0`).
+  - `npm start` relancé avec l'autorisation d'ouvrir le port local : `Cap Web prêt sur http://127.0.0.1:3000/`.
+  - `curl --fail --silent http://127.0.0.1:3000/` : HTML de départ reçu, avec `main`, `h1` et `p#status`.
+  - `npm test` : `# tests 9`, `# pass 9`, `# fail 0`. Ce résultat vérifie le serveur, pas l'affichage dans le navigateur.
 
 Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est réunie, collez la preuve (texte, commande ou phrase), puis notez ce que vous avez prédit, essayé, observé, et une difficulté qui reste.
 
@@ -38,10 +43,10 @@ Pour chaque checkpoint : cochez la case quand toute la preuve de la fiche est r�
 ### J1-01 · 🧭 Équipage — [fiche](checkpoints/J1-01-equipage.md)
 
 - [ ] Validé
-- Preuve (page de départ affichée sur votre poste, cahier personnel recopié ci-dessus) :
-- Le `p#status` est-il vide dans le HTML ? Qui écrit sa phrase ?
-- Décision prise ensemble :
-- Difficulté qui reste :
+- Preuve (page de départ affichée sur votre poste, cahier personnel recopié ci-dessus) : démarrage et réponse HTTP vérifiés par l'assistant ; affichage sur mon navigateur encore à vérifier. Réglages inscrits ci-dessus, à confirmer avec le formateur.
+- Le `p#status` est-il vide dans le HTML ? Qui écrit sa phrase ? Oui : `<p id="status" role="status"></p>`. `atelier/public/js/app.js` sélectionne cet élément et lui affecte « Votre point de départ est prêt. » avec `textContent`.
+- Décision prise ensemble : parcours adapté au travail solo, thème « Potager et jardin », trois questions simples. Les trois fichiers à savoir citer sont `index.html` (structure), `styles.css` (présentation) et `js/app.js` (comportement).
+- Difficulté qui reste : Node doit être mis au niveau demandé ; vérifier personnellement la page et savoir citer les fichiers sans notes ; confirmer les réglages du cahier. Checkpoint non coché tant que ces preuves manquent.
 
 ### J1-02 · 💬 Premier prompt — [fiche](checkpoints/J1-02-premier-prompt.md)
 
